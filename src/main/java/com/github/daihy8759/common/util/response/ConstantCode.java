@@ -7,8 +7,10 @@ public class ConstantCode {
 
     public final RetCode SUCCESS = new RetCode(0, "success");
 
-    public final RetCode LOGIN_FAIL = new RetCode(202034, "login fail");
-    public static RetCode TOKEN_NOT_FOUND = new RetCode(202035, "token not found！");
-    public static RetCode TOKEN_REQUIRE_FAIL = new RetCode(202036, "app_id or secret not correct！");
+    public final RetCode SERVER_ERROR = new RetCode(10000, "server error！");
+
+    public final RetCode LOGIN_FAIL = new RetCode(22034, "login fail");
+    public final RetCode TOKEN_NOT_FOUND = new RetCode(22035, "token not found！");
+    public final RetCode TOKEN_REQUIRE_FAIL = new RetCode(22036, "app_id or secret not correct！");
 
 }
