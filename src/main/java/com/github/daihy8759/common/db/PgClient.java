@@ -8,7 +8,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class PgClient {
 
-    String DEFAULT_POOL_NAME = "DEFAULT_MYSQL_POOL";
+    String DEFAULT_POOL_NAME = "DEFAULT_POSTGRESQL_POOL";
 
     public static Pool createShared(Vertx vertx, JsonObject config) {
         return ClientHelper.getOrCreate(vertx, config, DEFAULT_POOL_NAME);
