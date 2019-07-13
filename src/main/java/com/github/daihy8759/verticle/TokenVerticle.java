@@ -44,6 +44,7 @@ public class TokenVerticle extends AbstractVerticle {
         String appSecret = paramObject.getString("appSecret");
         if (StringUtils.isAnyBlank(appId, appSecret)) {
             message.reply(ApiResponse.fail().setRetCode(ConstantCode.TOKEN_REQUIRE_FAIL).toString());
+            return;
         }
         exists(appId, appSecret).flatMap(r -> {
             if (r) {
