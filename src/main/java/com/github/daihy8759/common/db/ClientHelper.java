@@ -14,11 +14,13 @@ public class ClientHelper {
 
     public static Pool getOrCreate(Vertx vertx, JsonObject config, String poolName) {
         synchronized (vertx) {
-            LocalMap<String, ClientHolder> map = vertx.sharedData().getLocalMap(DS_LOCAL_MAP_NAME_BASE + "PostgreSQL");
+            LocalMap<String, ClientHolder> map =
+                    vertx.sharedData().getLocalMap(DS_LOCAL_MAP_NAME_BASE + "PostgreSQL");
 
             ClientHolder theHolder = map.get(poolName);
             if (theHolder == null) {
-                theHolder = new ClientHolder(vertx, config, () -> removeFromMap(vertx, map, poolName));
+                theHolder =
+                        new ClientHolder(vertx, config, () -> removeFromMap(vertx, map, poolName));
                 map.put(poolName, theHolder);
             } else {
                 theHolder.incRefCount();
@@ -27,7 +29,8 @@ public class ClientHelper {
         }
     }
 
-    private static void removeFromMap(Vertx vertx, LocalMap<String, ClientHolder> map, String poolName) {
+    private static void removeFromMap(Vertx vertx, LocalMap<String, ClientHolder> map,
+            String poolName) {
         synchronized (vertx) {
             map.remove(poolName);
             if (map.isEmpty()) {

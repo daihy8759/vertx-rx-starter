@@ -4,11 +4,9 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.reactivex.core.eventbus.Message;
 import lombok.experimental.UtilityClass;
 import lombok.extern.log4j.Log4j2;
-
 import com.github.daihy8759.common.exception.BaseException;
 import com.github.daihy8759.common.util.response.ApiResponse;
 import com.github.daihy8759.common.util.response.ConstantCode;
-
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 @Log4j2

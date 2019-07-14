@@ -32,10 +32,14 @@ public class ClientHolder implements Shareable {
 
     private static Pool createPool(Vertx vertx, JsonObject config) {
         JsonObject databaseConfig = config.getJsonObject("database");
-        PgConnectOptions connectOptions = new PgConnectOptions().setHost(databaseConfig.getString("host"))
-                .setPort(databaseConfig.getInteger("port")).setDatabase(databaseConfig.getString("database"))
-                .setUser(databaseConfig.getString("username")).setPassword(databaseConfig.getString("password"));
-        PoolOptions poolOptions = new PoolOptions().setMaxSize(databaseConfig.getInteger("maxPoolSize"));
+        PgConnectOptions connectOptions =
+                new PgConnectOptions().setHost(databaseConfig.getString("host"))
+                        .setPort(databaseConfig.getInteger("port"))
+                        .setDatabase(databaseConfig.getString("database"))
+                        .setUser(databaseConfig.getString("username"))
+                        .setPassword(databaseConfig.getString("password"));
+        PoolOptions poolOptions =
+                new PoolOptions().setMaxSize(databaseConfig.getInteger("maxPoolSize"));
         return PgPool.pool(vertx, connectOptions, poolOptions);
     }
 

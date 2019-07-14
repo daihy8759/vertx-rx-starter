@@ -1,16 +1,13 @@
 package com.github.daihy8759.verticle;
 
 import java.util.UUID;
-
 import com.github.daihy8759.common.db.PgClient;
 import com.github.daihy8759.common.util.Constants;
 import com.github.daihy8759.common.util.EventBusUtil;
 import com.github.daihy8759.common.util.response.ApiResponse;
 import com.github.daihy8759.common.util.response.ConstantCode;
 import com.github.daihy8759.keys.TokenKey;
-
 import org.apache.commons.lang3.StringUtils;
-
 import io.reactivex.Single;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonObject;
@@ -43,7 +40,8 @@ public class TokenVerticle extends AbstractVerticle {
         String appId = paramObject.getString("appId");
         String appSecret = paramObject.getString("appSecret");
         if (StringUtils.isAnyBlank(appId, appSecret)) {
-            message.reply(ApiResponse.fail().setRetCode(ConstantCode.TOKEN_REQUIRE_FAIL).toString());
+            message.reply(
+                    ApiResponse.fail().setRetCode(ConstantCode.TOKEN_REQUIRE_FAIL).toString());
             return;
         }
         exists(appId, appSecret).flatMap(r -> {
@@ -60,13 +58,16 @@ public class TokenVerticle extends AbstractVerticle {
     private Single<ApiResponse> createToken(String appId) {
         long expiresIn = constantConfig.getLong("tokenExpire", 1200L);
         String token = UUID.randomUUID().toString().replace("-", "");
-        return redisClient.rxSetex(token, expiresIn, appId).flatMap(r -> Single
-                .just(ApiResponse.success().setData(new JsonObject().put("token", token).put("expiresIn", expiresIn))));
+        return redisClient.rxSetex(token, expiresIn, appId)
+                .flatMap(r -> Single.just(ApiResponse.success().setData(
+                        new JsonObject().put("token", token).put("expiresIn", expiresIn))));
     }
 
     private Single<Boolean> exists(String appId, String appSecret) {
-        return client.rxPreparedQuery("select 1 from tb_application where app_id=$1 and app_secret=$2",
-                Tuple.of(appId, appSecret)).flatMap(rows -> Single.just(rows.size() > 0));
+        return client
+                .rxPreparedQuery("select 1 from tb_application where app_id=$1 and app_secret=$2",
+                        Tuple.of(appId, appSecret))
+                .flatMap(rows -> Single.just(rows.size() > 0));
     }
 
 }

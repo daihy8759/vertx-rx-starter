@@ -29,7 +29,8 @@ public class ApiMessageCodec implements MessageCodec<ApiResponse, ApiResponse> {
         boolean success = contentJson.getBoolean("success");
         String message = contentJson.getString("message");
         Object data = contentJson.getValue("data");
-        return new ApiResponse().setCode(code).setSuccess(success).setMessage(message).setData(data);
+        return new ApiResponse().setCode(code).setSuccess(success).setMessage(message)
+                .setData(data);
     }
 
     @Override

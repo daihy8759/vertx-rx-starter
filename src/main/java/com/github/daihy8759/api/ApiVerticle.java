@@ -4,9 +4,7 @@ import com.github.daihy8759.common.util.Constants;
 import com.github.daihy8759.common.util.response.ApiResponse;
 import com.github.daihy8759.common.util.response.ConstantCode;
 import com.github.daihy8759.service.TokenService;
-
 import org.apache.commons.lang3.StringUtils;
-
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.vertx.core.http.HttpHeaders;
@@ -51,9 +49,11 @@ public class ApiVerticle extends AbstractVerticle {
 
     private void handleApi(RoutingContext routingContext) {
         String requestPath = routingContext.request().path();
-        routingContext.response().putHeader(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
+        routingContext.response().putHeader(HttpHeaders.CONTENT_TYPE,
+                "application/json;charset=UTF-8");
         if (requestPath.length() < 7) {
-            routingContext.response().end(ApiResponse.fail().setMessage("handler not exists!").toString());
+            routingContext.response()
+                    .end(ApiResponse.fail().setMessage("handler not exists!").toString());
             return;
         }
         String apiVersion = requestPath.substring(5, 7);
@@ -66,8 +66,8 @@ public class ApiVerticle extends AbstractVerticle {
                 if (r) {
                     sendEvent(routingContext, eventBusKey, apiVersion);
                 } else {
-                    routingContext.response()
-                            .end(ApiResponse.fail().setRetCode(ConstantCode.TOKEN_NOT_FOUND).toString());
+                    routingContext.response().end(
+                            ApiResponse.fail().setRetCode(ConstantCode.TOKEN_NOT_FOUND).toString());
                 }
             });
         }
@@ -77,9 +77,10 @@ public class ApiVerticle extends AbstractVerticle {
         HttpServerResponse response = routingContext.response();
         vertx.eventBus()
                 .rxRequest(eventBusKey,
-                        parseParam(routingContext, new JsonObject().put(Constants.API_VERSION, apiVersion)))
-                .subscribe(res -> response.end(res.body().toString()),
-                        e -> response.end(ApiResponse.fail().setMessage(e.getMessage()).toString()));
+                        parseParam(routingContext,
+                                new JsonObject().put(Constants.API_VERSION, apiVersion)))
+                .subscribe(res -> response.end(res.body().toString()), e -> response
+                        .end(ApiResponse.fail().setMessage(e.getMessage()).toString()));
     }
 
     private String getToken(HttpServerRequest request) {
@@ -96,7 +97,8 @@ public class ApiVerticle extends AbstractVerticle {
         if (StringUtils.isBlank(token)) {
             return Single.just(false);
         }
-        return tokenService.getToken(token).defaultIfEmpty("").map(StringUtils::isNotBlank).toSingle();
+        return tokenService.getToken(token).defaultIfEmpty("").map(StringUtils::isNotBlank)
+                .toSingle();
     }
 
     private JsonObject parseParam(RoutingContext routingContext, JsonObject extParam) {

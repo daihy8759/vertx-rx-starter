@@ -3,7 +3,6 @@ package com.github.daihy8759.common.db;
 import io.vertx.core.json.JsonObject;
 import io.vertx.reactivex.sqlclient.Row;
 import lombok.experimental.UtilityClass;
-
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
@@ -18,7 +17,8 @@ public class RowHelper {
             Object value = row.getValue(i);
             if (value != null) {
                 if (value instanceof LocalDateTime) {
-                    jsonObject.put(columnName, ((LocalDateTime) value).atZone(ZoneId.systemDefault()).toInstant());
+                    jsonObject.put(columnName,
+                            ((LocalDateTime) value).atZone(ZoneId.systemDefault()).toInstant());
                 } else {
                     jsonObject.put(columnName, row.getValue(i));
                 }

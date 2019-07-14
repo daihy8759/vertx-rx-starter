@@ -2,14 +2,12 @@ package com.github.daihy8759;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.github.daihy8759.api.ApiVerticle;
 import com.github.daihy8759.common.util.response.ApiMessageCodec;
 import com.github.daihy8759.common.util.response.ApiResponse;
 import com.github.daihy8759.verticle.TokenVerticle;
-
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.vertx.core.DeploymentOptions;
